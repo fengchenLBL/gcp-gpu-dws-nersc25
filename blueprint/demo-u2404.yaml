@@ -1,0 +1,117 @@
+blueprint_name: dws
+
+vars:
+  project_id: <project id>
+  deployment_name: demo-u2404
+  region: us-central1
+  zone: us-central1-a
+  instance_image:
+    name: demo-u2404
+    project: $(vars.project_id)
+    disk_size: 50
+  
+deployment_groups:
+- group: primary
+  modules:
+  - id: network
+    source: modules/network/vpc
+
+  - id: homefs
+    source: community/modules/file-system/nfs-server
+    use: [network]
+    settings:
+      local_mounts: [/home]
+      disk_size: 100
+
+  - id: ns_l4_dws
+    source: community/modules/compute/schedmd-slurm-gcp-v6-nodeset
+    use: [network]
+    settings:
+      node_count_dynamic_max: 4
+      disk_type: pd-standard
+      machine_type: g2-standard-48
+      guest_accelerator:
+        - type: nvidia-l4
+          count: 4
+      enable_placement: false
+      preemptible: false
+      dws_flex:
+        enabled: true
+        max_run_duration: 300
+      instance_image_custom: true
+
+  - id: part_l4_dws
+    source: community/modules/compute/schedmd-slurm-gcp-v6-partition
+    use:
+    - ns_l4_dws
+    settings:
+      partition_name: l4dws
+      exclusive: false
+      is_default: false
+
+  - id: ns_t4_dws
+    source: community/modules/compute/schedmd-slurm-gcp-v6-nodeset
+    use: [network]
+    settings:
+      node_count_dynamic_max: 16
+#      node_count_static: 2
+      disk_type: pd-standard
+      machine_type: n1-standard-4
+      guest_accelerator:
+        - type: nvidia-tesla-t4
+          count: 4
+      enable_placement: false
+      preemptible: false
+      dws_flex:
+        enabled: true
+        max_run_duration: 300
+      zones: [us-central1-b, us-central1-c, us-central1-f]
+      instance_image_custom: true
+
+  - id: part_t4_dws
+    source: community/modules/compute/schedmd-slurm-gcp-v6-partition
+    use:
+    - ns_t4_dws
+    settings:
+      partition_name: t4dws
+      exclusive: false
+      is_default: true
+
+  - id: ns_v100_dws
+    source: community/modules/compute/schedmd-slurm-gcp-v6-nodeset
+    use: [network]
+    settings:
+      node_count_dynamic_max: 16
+      disk_type: pd-standard
+      machine_type: n1-standard-4
+      guest_accelerator:
+        - type: nvidia-tesla-v100
+          count: 4
+      enable_placement: false
+      preemptible: false
+      dws_flex:
+        enabled: true
+        max_run_duration: 300
+      instance_image_custom: true
+
+  - id: part_v100_dws
+    source: community/modules/compute/schedmd-slurm-gcp-v6-partition
+    use:
+    - ns_v100_dws
+    settings:
+      partition_name: v100dws
+      exclusive: false
+      is_default: false
+
+  - id: slurm_controller
+    source: community/modules/scheduler/schedmd-slurm-gcp-v6-controller
+    use:
+    - network
+    - part_l4_dws
+    - part_t4_dws
+    - part_v100_dws
+    - homefs
+    settings:
+      enable_controller_public_ips: false
+      instance_image_custom: true
+      
