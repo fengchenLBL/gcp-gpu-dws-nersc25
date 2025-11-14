@@ -41,7 +41,7 @@
    Edit `demo-u2204.yaml` to replace the placeholder:
    - Set `project_id: your-gcp-project-id` (same as above).
    - Update `zone: us-central1-a` to `zone: us-central1-b` under `vars` for alignment with your default.
-   - If deployment failed: comment out the line with "zones"
+   - If deployment failed: comment out the line with `zones`
    No other changes are needed unless you want to tweak node counts, GPU types, or other settings.
 
 7. **Install Google HPC Toolkit (if not already installed)**: The blueprint uses the Google HPC Toolkit (formerly Cluster Toolkit) to deploy. 
