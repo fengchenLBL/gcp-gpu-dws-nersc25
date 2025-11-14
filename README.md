@@ -85,4 +85,6 @@
 
 
 10. **Cleanup or iterate (optional)**: If the test works and you need to rebuild custom image for default SC25 workshop users, OOD login, Julia etc., you can destroy the deployment with `./gcluster destroy demo-u2204 --auto-approve`. 
+
+
 This should get test cluster running...
