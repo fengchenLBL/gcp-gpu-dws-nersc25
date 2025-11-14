@@ -32,7 +32,7 @@
    ```
    packer build ubuntu2204.json
    ```
-   This will create the custom image named "demo-u2204" in your GCP project (under Storage > Images). Monitor the output for errors; it may take 10-20 minutes. 
+   This will create the custom image named "demo-u2204" in your GCP project (under __Compute Engine -> Storage > Images__). Monitor the output for errors; it may take 10-20 minutes. 
 
 6. **Navigate to the blueprint folder and customize the YAML**:
    ```
