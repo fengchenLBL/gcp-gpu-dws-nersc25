@@ -84,6 +84,5 @@
    ```
 
 
-10. **Cleanup or iterate (optional)**: If the test works and you need to rebuild custom image for default SC25 workshop users, OOD login, Julia etc., you can destroy the deployment with `./gcluster destroy demo-u2204 --auto-approve`. For production, scale up node counts in the YAML and redeploy. If issues arise (e.g., GPU quotas), request quotas in GCP Console or try a different region/zone. If you want to switch to Ubuntu 24.04 later, repeat steps 4-9 with `ubuntu2404.json` and `demo-u2404.yaml`.
-
-This should get test workshop cluster running...
+10. **Cleanup or iterate (optional)**: If the test works and you need to rebuild custom image for default SC25 workshop users, OOD login, Julia etc., you can destroy the deployment with `./gcluster destroy demo-u2204 --auto-approve`. 
+This should get test cluster running...
