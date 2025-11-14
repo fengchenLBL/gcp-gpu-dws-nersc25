@@ -34,7 +34,7 @@
    ```
    This will create the custom image named "demo-u2204" in your GCP project (under Storage > Images). Monitor the output for errors; it may take 10-20 minutes. 
 
-6. **Navigate to the blueprint folder and customize the YAML**: Go back to the root and into the blueprint folder (assuming that's where the YAMLs are):
+6. **Navigate to the blueprint folder and customize the YAML**:
    ```
    cd ../blueprint
    ```
@@ -44,7 +44,7 @@
    - If deployment failed: comment out the line with `zones`
    No other changes are needed unless you want to tweak node counts, GPU types, or other settings.
 
-7. **Install Google HPC Toolkit (if not already installed)**: The blueprint uses the Google HPC Toolkit (formerly Cluster Toolkit) to deploy. 
+7. **Install Google HPC Toolkit (if not already installed)**: The blueprint uses the Google Cluster Toolkit to deploy. 
 
 8. **Deploy the Slurm cluster**: Use the HPC Toolkit CLI to create the deployment from the blueprint:
    ```
